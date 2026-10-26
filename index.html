@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self' data: blob:; connect-src 'self' data: blob:; worker-src 'self' blob:; manifest-src 'self'; form-action 'none'; base-uri 'none'; object-src 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Audio Trimmer — Cut MP3, WAV, M4A Online, Make Ringtones | S3eidat Tools</title>
+<meta name="description" content="Trim and cut audio files in your browser. Drag start and end on the waveform, preview, add fade in/out, change volume and export WAV. Ringtone presets. Free, private, nothing uploaded.">
+<meta property="og:title" content="Audio Trimmer — free, private audio cutter">
+<meta property="og:description" content="Cut audio, add fades, make ringtones and export WAV. Runs 100% in your browser.">
+<meta property="og:image" content="screenshot.png">
+<link rel="icon" href="kit/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="kit/kit.css">
+<link rel="stylesheet" href="app.css">
+<script src="kit/kit.js"></script>
+</head>
+<body data-tool="audio-trimmer">
+<main class="s3-main">
+  <section class="s3-hero">
+    <h1>Audio Trimmer</h1>
+    <p>Cut a song, voice note or podcast to the part you want. Drag the handles, preview, add fades and export a WAV. Your audio never leaves this device.</p>
+  </section>
+
+  <label class="drop" id="drop">
+    <input type="file" hidden>
+    <svg class="i"><use href="#i-upload"/></svg>
+    <b>Drop an audio file, or click to choose</b>
+    <span class="faint">MP3, WAV, M4A/AAC, OGG, FLAC, Opus, anything your browser can play</span>
+  </label>
+
+  <section class="card stack" id="editor" hidden>
+    <div class="row between">
+      <div class="row grow">
+        <h2 class="fname" id="fname">audio</h2>
+        <span class="chip" id="finfo"></span>
+      </div>
+      <button class="btn ghost small" id="another"><svg class="i"><use href="#i-upload"/></svg>Open another</button>
+    </div>
+
+    <div class="wave" id="wave">
+      <canvas id="cv" aria-hidden="true"></canvas>
+      <div class="sel" id="selBox"></div>
+      <div class="playhead" id="ph" hidden></div>
+      <div class="handle" id="hStart" role="slider" tabindex="0" aria-label="Start"><i></i></div>
+      <div class="handle" id="hEnd" role="slider" tabindex="0" aria-label="End"><i></i></div>
+    </div>
+    <p class="faint hint">Drag on the waveform to select, drag the handles to adjust, arrow keys nudge a focused handle (<kbd>Shift</kbd> = 1 s).</p>
+
+    <div class="row tr-bar">
+      <button class="btn primary" id="play"><svg class="i"><use href="#i-play"/></svg><span>Play selection</span></button>
+      <label class="check"><input type="checkbox" id="loop"> Loop</label>
+      <span class="grow"></span>
+      <label class="field inline">Start <input class="input mono" id="tStart" inputmode="decimal" aria-label="Start time"></label>
+      <label class="field inline">End <input class="input mono" id="tEnd" inputmode="decimal" aria-label="End time"></label>
+      <span class="chip accent mono" id="tLen">0:00.000</span>
+    </div>
+
+    <div class="row">
+      <span class="faint">Length from start</span>
+      <div class="seg" id="presets" role="group" aria-label="Length presets">
+        <button aria-pressed="false" data-v="15">15 s</button>
+        <button aria-pressed="false" data-v="20">20 s</button>
+        <button aria-pressed="false" data-v="30">30 s ringtone</button>
+        <button aria-pressed="false" data-v="40">40 s (iPhone max)</button>
+        <button aria-pressed="false" data-v="all">Whole file</button>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <label class="field range">Fade in <span class="val" id="fiV">0 s</span><input type="range" id="fadeIn" min="0" max="10" step="0.1" value="0"></label>
+      <label class="field range">Fade out <span class="val" id="foV">0 s</span><input type="range" id="fadeOut" min="0" max="10" step="0.1" value="0"></label>
+      <label class="field range">Volume <span class="val" id="volV">100%</span><input type="range" id="vol" min="0" max="200" step="1" value="100"></label>
+    </div>
+
+    <div class="row between export">
+      <div class="row">
+        <label class="check"><input type="checkbox" id="norm"> Normalize to −1 dB</label>
+        <label class="check"><input type="checkbox" id="mono"> Mono</label>
+      </div>
+      <div class="row">
+        <span class="faint" id="estimate"></span>
+        <button class="btn primary big" id="export"><svg class="i"><use href="#i-download"/></svg>Export WAV</button>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
